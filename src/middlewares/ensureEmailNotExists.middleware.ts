@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryConfig } from "pg";
+import { client } from "../database";
+import { TUserResponse, TUserResult } from "../interfaces/users.interfaces";
 
 export const ensureEmailNotExists = async (
   req: Request,
@@ -22,5 +24,13 @@ export const ensureEmailNotExists = async (
     values: [email],
   };
 
+  const queryResult: TUserResult = await client.query(queryConfig);
 
+  if (queryResult.rowCount !== 0) {
+    return res.status(409).json({
+      message: "E-mail already registered",
+    });
+  }
+
+  return next();
 };
