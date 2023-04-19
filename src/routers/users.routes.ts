@@ -13,6 +13,7 @@ import { userRequestSchema, userUpdateSchema } from "../schemas/user.schemas";
 import { ensureTokenIsValid } from "../middlewares/ensureTokenIsValid.middleware";
 import { ensureUserIsAdmin } from "../middlewares/ensureUserIsAdmin.middleware";
 import { ensureIdExists } from "../middlewares/ensureIdExists.middleware";
+import { ensureUserIsActive } from "../middlewares/ensureUserIsActive.middleware";
 
 const userRoutes: Router = Router();
 
@@ -29,8 +30,8 @@ userRoutes.patch(
   ensureTokenIsValid,
   ensureIdExists,
   validateBody(userUpdateSchema),
-  ensureEmailNotExists,
   ensureUserIsAdmin,
+  ensureEmailNotExists,
   updateUserController
 );
 userRoutes.delete(
@@ -45,6 +46,7 @@ userRoutes.put(
   ensureTokenIsValid,
   ensureIdExists,
   ensureUserIsAdmin,
+  ensureUserIsActive,
   recoverUserController
 );
 

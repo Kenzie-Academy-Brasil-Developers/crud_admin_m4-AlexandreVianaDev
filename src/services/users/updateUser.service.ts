@@ -15,8 +15,10 @@ import { sign } from "jsonwebtoken";
 import "dotenv/config";
 import format from "pg-format";
 import {
+  userDataUpdateSchema,
   userLoginSchema,
   userResponseSchema,
+  userUpdateSchema,
 } from "../../schemas/user.schemas";
 
 export const updateUserService = async (
@@ -25,10 +27,11 @@ export const updateUserService = async (
   idToken: number,
   admin: boolean
 ): Promise<TUserResponse> => {
-  console.log("admin", admin, "idParams", idParams, "idToken", idToken);
-  if (!admin && idParams !== idToken) {
-    throw new AppError("Insufficient Permission", 403);
-  }
+//   if (!admin && idParams !== idToken) {
+//     throw new AppError("Insufficient Permission", 403);
+//   }
+
+  const newData: TUserUpdate = userUpdateSchema.parse(newUserData);
 
   const queryString: string = format(
     `
@@ -39,8 +42,8 @@ export const updateUserService = async (
         id = $1
       RETURNING *;
     `,
-    Object.keys(newUserData),
-    Object.values(newUserData)
+    Object.keys(newData),
+    Object.values(newData)
   );
   const queryConfig: QueryConfig = {
     text: queryString,

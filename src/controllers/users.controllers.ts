@@ -39,8 +39,8 @@ export const getProfileController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const email = res.locals.email;
-  const profile = await getProfileService(email);
+  const id = res.locals.id;
+  const profile = await getProfileService(id);
   return res.status(200).json(profile);
 };
 

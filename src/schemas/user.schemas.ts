@@ -14,7 +14,13 @@ export const userRequestSchema = userSchema.omit({ id: true, active: true });
 
 export const userResponseSchema = userSchema.omit({ password: true });
 
-export const userUpdateSchema = userSchema.partial();
+export const userDataUpdateSchema = userSchema.omit({
+  id: true,
+  active: true,
+  admin: true,
+});
+
+export const userUpdateSchema = userDataUpdateSchema.partial();
 
 export const userLoginSchema = userSchema.omit({
   id: true,

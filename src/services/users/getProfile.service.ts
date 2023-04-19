@@ -15,7 +15,7 @@ import { hash } from "bcryptjs";
 import { QueryConfig } from "pg";
 
 export const getProfileService = async (
-  email: string
+  id: number
 ): Promise<TUserResponse> => {
   const queryString: string = `
     SELECT 
@@ -23,15 +23,18 @@ export const getProfileService = async (
     FROM
         users
     WHERE
-        "email" = $1;
+        "id" = $1;
     `;
 
   const queryConfig: QueryConfig = {
     text: queryString,
-    values: [email],
+    values: [id],
   };
 
   const queryResult: TUserResult = await client.query(queryConfig);
 
-  return queryResult.rows[0];
+  console.log("USER", queryResult.rows[0]);
+  const user: TUserResponse = userResponseSchema.parse(queryResult.rows[0]);
+
+  return user;
 };
