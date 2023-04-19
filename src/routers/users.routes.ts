@@ -1,8 +1,18 @@
 import { Request, Response, Router } from "express";
-import { createUserController } from "../controllers/users.controllers";
+import {
+  createUserController,
+  deleteUserController,
+  getProfileController,
+  getUsersController,
+  recoverUserController,
+  updateUserController,
+} from "../controllers/users.controllers";
 import { ensureEmailNotExists } from "../middlewares/ensureEmailNotExists.middleware";
 import { validateBody } from "../middlewares/validateBody.middleware";
-import { userRequestSchema } from "../schemas/user.schemas";
+import { userRequestSchema, userUpdateSchema } from "../schemas/user.schemas";
+import { ensureTokenIsValid } from "../middlewares/ensureTokenIsValid.middleware";
+import { ensureUserIsAdmin } from "../middlewares/ensureUserIsAdmin.middleware";
+import { ensureIdExists } from "../middlewares/ensureIdExists.middleware";
 
 const userRoutes: Router = Router();
 
@@ -12,10 +22,30 @@ userRoutes.post(
   ensureEmailNotExists,
   createUserController
 );
-// userRoutes.get("")
-// userRoutes.get("/profile")
-// userRoutes.patch("/:id")
-// userRoutes.delete("/:id")
-// userRoutes.put("/:id/recover")
+userRoutes.get("", ensureTokenIsValid, ensureUserIsAdmin, getUsersController);
+userRoutes.get("/profile", ensureTokenIsValid, getProfileController);
+userRoutes.patch(
+  "/:id",
+  ensureTokenIsValid,
+  ensureIdExists,
+  validateBody(userUpdateSchema),
+  ensureEmailNotExists,
+  ensureUserIsAdmin,
+  updateUserController
+);
+userRoutes.delete(
+  "/:id",
+  ensureTokenIsValid,
+  ensureIdExists,
+  ensureUserIsAdmin,
+  deleteUserController
+);
+userRoutes.put(
+  "/:id/recover",
+  ensureTokenIsValid,
+  ensureIdExists,
+  ensureUserIsAdmin,
+  recoverUserController
+);
 
 export default userRoutes;

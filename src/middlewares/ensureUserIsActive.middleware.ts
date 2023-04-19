@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryConfig } from "pg";
 import { client } from "../database";
-import { TUserResponse, TUserResult } from "../interfaces/users.interfaces";
+import { TUserResult } from "../interfaces/users.interfaces";
 import { AppError } from "../error";
 
-export const ensureEmailNotExists = async (
+export const ensureUserIsActive = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,13 +12,13 @@ export const ensureEmailNotExists = async (
   const { email } = req.body;
 
   const queryString: string = `
-    SELECT
-      *
-    FROM
-      users
-    WHERE
-      email = $1;
-  `;
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            email = $1;
+    `;
 
   const queryConfig: QueryConfig = {
     text: queryString,
@@ -27,8 +27,10 @@ export const ensureEmailNotExists = async (
 
   const queryResult: TUserResult = await client.query(queryConfig);
 
-  if (queryResult.rowCount !== 0) {
-    throw new AppError("E-mail already registered", 409);
+  const user = queryResult.rows[0];
+
+  if (!user.active) {
+    throw new AppError("Wrong email/password", 401);
   }
 
   return next();

@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryConfig } from "pg";
 import { client } from "../database";
-import { TUserResponse, TUserResult } from "../interfaces/users.interfaces";
+import { TUserResult } from "../interfaces/users.interfaces";
 import { AppError } from "../error";
 
-export const ensureEmailNotExists = async (
+export const ensureIdExists = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  const { email } = req.body;
+  const { id } = req.params;
 
   const queryString: string = `
     SELECT
@@ -17,18 +17,18 @@ export const ensureEmailNotExists = async (
     FROM
       users
     WHERE
-      email = $1;
+      id = $1;
   `;
 
   const queryConfig: QueryConfig = {
     text: queryString,
-    values: [email],
+    values: [id],
   };
 
   const queryResult: TUserResult = await client.query(queryConfig);
 
-  if (queryResult.rowCount !== 0) {
-    throw new AppError("E-mail already registered", 409);
+  if (queryResult.rowCount === 0) {
+    throw new AppError("User not found", 404);
   }
 
   return next();
