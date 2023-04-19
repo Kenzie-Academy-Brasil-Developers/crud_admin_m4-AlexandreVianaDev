@@ -7,15 +7,17 @@ import {
   recoverUserController,
   updateUserController,
 } from "../controllers/users.controllers";
-import { ensureEmailNotExists } from "../middlewares/ensureEmailNotExists.middleware";
-import { validateBody } from "../middlewares/validateBody.middleware";
+import {
+  ensureEmailNotExists,
+  validateBody,
+  ensureTokenIsValid,
+  ensureUserIsAdmin,
+  ensureIdExists,
+  ensureUserIsActive,
+} from "../middlewares";
 import { userRequestSchema, userUpdateSchema } from "../schemas/user.schemas";
-import { ensureTokenIsValid } from "../middlewares/ensureTokenIsValid.middleware";
-import { ensureUserIsAdmin } from "../middlewares/ensureUserIsAdmin.middleware";
-import { ensureIdExists } from "../middlewares/ensureIdExists.middleware";
-import { ensureUserIsActive } from "../middlewares/ensureUserIsActive.middleware";
 
-const userRoutes: Router = Router();
+export const userRoutes: Router = Router();
 
 userRoutes.post(
   "",
@@ -50,4 +52,4 @@ userRoutes.put(
   recoverUserController
 );
 
-export default userRoutes;
+// export default userRoutes;

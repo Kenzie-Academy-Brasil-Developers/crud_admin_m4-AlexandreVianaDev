@@ -9,7 +9,7 @@ import { client } from "../../database";
 import { userResponseSchema } from "../../schemas/user.schemas";
 import { hash } from "bcryptjs";
 
-const createUserService = async (
+export const createUserService = async (
   userData: TUserRequest
 ): Promise<TUserResponse> => {
   const hashedPassword = await hash(userData.password, 10);
@@ -36,5 +36,3 @@ const createUserService = async (
 
   return userResponse;
 };
-
-export default createUserService;

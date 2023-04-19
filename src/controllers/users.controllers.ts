@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
-import createUserService from "../services/users/createUsers.service";
 import { TUserRequest, TUserUpdate } from "../interfaces/users.interfaces";
-import { loginUserService } from "../services/users/loginUsers.service";
-import getUsersService from "../services/users/getUsers.service";
-import { getProfileService } from "../services/users/getProfile.service";
-import { updateUserService } from "../services/users/updateUser.service";
-import { deleteUserService } from "../services/users/deleteUser.service";
-import { recoverUserService } from "../services/users/recoverUser.service";
+import {
+  createUserService,
+  loginUserService,
+  getUsersService,
+  getProfileService,
+  updateUserService,
+  deleteUserService,
+  recoverUserService,
+} from "../services/users";
 
 export const createUserController = async (
   req: Request,

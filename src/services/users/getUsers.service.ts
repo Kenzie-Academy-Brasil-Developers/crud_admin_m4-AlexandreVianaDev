@@ -2,7 +2,7 @@ import { TUserResponse, TUserResult } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
 import { userResponseSchema } from "../../schemas/user.schemas";
 
-const getUsersService = async (): Promise<TUserResponse[]> => {
+export const getUsersService = async (): Promise<TUserResponse[]> => {
   const queryString: string = `
         SELECT 
             *
@@ -17,5 +17,3 @@ const getUsersService = async (): Promise<TUserResponse[]> => {
 
   return users;
 };
-
-export default getUsersService;

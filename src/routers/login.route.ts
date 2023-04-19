@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { validateBody } from "../middlewares/validateBody.middleware";
 import { userLoginSchema } from "../schemas/user.schemas";
-import { ensureEmailExists } from "../middlewares/ensureEmailExists.middleware";
+import {
+  validateBody,
+  ensureEmailExists,
+  ensureUserIsActive,
+} from "../middlewares";
 import { loginUserController } from "../controllers/users.controllers";
-import { ensureUserIsActive } from "../middlewares/ensureUserIsActive.middleware";
 
-const loginRoute: Router = Router();
+export const loginRoute: Router = Router();
 
 loginRoute.post(
   "",
@@ -14,5 +16,3 @@ loginRoute.post(
   ensureUserIsActive,
   loginUserController
 );
-
-export default loginRoute;
