@@ -1,23 +1,13 @@
 import { QueryConfig } from "pg";
 import {
-  TToken,
   TUserCompleteResult,
-  TUserRequest,
   TUserResponse,
-  TUserResult,
   TUserUpdate,
 } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
-import { compare } from "bcryptjs";
 import { AppError } from "../../error";
-import { TUser, TUserLogin } from "../../__tests__/mocks/interfaces";
-import { sign } from "jsonwebtoken";
 import "dotenv/config";
-import format from "pg-format";
-import {
-  userLoginSchema,
-  userResponseSchema,
-} from "../../schemas/user.schemas";
+import { userResponseSchema } from "../../schemas/user.schemas";
 
 export const recoverUserService = async (
   newUserData: TUserUpdate,

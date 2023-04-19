@@ -1,17 +1,6 @@
-import format from "pg-format";
-import {
-  TUserRequest,
-  TUserResponse,
-  TUserResult,
-} from "../../interfaces/users.interfaces";
+import { TUserResponse, TUserResult } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
-import { TUserCreate } from "../../__tests__/mocks/interfaces";
-import {
-  userRequestSchema,
-  userResponseSchema,
-  userSchema,
-} from "../../schemas/user.schemas";
-import { hash } from "bcryptjs";
+import { userResponseSchema } from "../../schemas/user.schemas";
 
 const getUsersService = async (): Promise<TUserResponse[]> => {
   const queryString: string = `

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryConfig } from "pg";
 import { client } from "../database";
-import { TUserResponse, TUserResult } from "../interfaces/users.interfaces";
+import { TUserResult } from "../interfaces/users.interfaces";
 import { AppError } from "../error";
 
 export const ensureEmailNotExists = async (

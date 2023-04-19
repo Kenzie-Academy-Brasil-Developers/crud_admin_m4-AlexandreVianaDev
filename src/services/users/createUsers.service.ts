@@ -5,12 +5,8 @@ import {
   TUserResult,
 } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
-import { TUserCreate } from "../../__tests__/mocks/interfaces";
-import {
-  userRequestSchema,
-  userResponseSchema,
-  userSchema,
-} from "../../schemas/user.schemas";
+
+import { userResponseSchema } from "../../schemas/user.schemas";
 import { hash } from "bcryptjs";
 
 const createUserService = async (

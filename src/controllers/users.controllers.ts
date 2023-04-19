@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import createUserService from "../services/users/createUsers.service";
-import { userRequestSchema } from "../schemas/user.schemas";
 import { TUserRequest, TUserUpdate } from "../interfaces/users.interfaces";
 import { loginUserService } from "../services/users/loginUsers.service";
 import getUsersService from "../services/users/getUsers.service";

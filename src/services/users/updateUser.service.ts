@@ -1,22 +1,13 @@
 import { QueryConfig } from "pg";
 import {
-  TToken,
   TUserCompleteResult,
-  TUserRequest,
   TUserResponse,
-  TUserResult,
   TUserUpdate,
 } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
-import { compare } from "bcryptjs";
-import { AppError } from "../../error";
-import { TUser, TUserLogin } from "../../__tests__/mocks/interfaces";
-import { sign } from "jsonwebtoken";
 import "dotenv/config";
 import format from "pg-format";
 import {
-  userDataUpdateSchema,
-  userLoginSchema,
   userResponseSchema,
   userUpdateSchema,
 } from "../../schemas/user.schemas";
@@ -27,10 +18,6 @@ export const updateUserService = async (
   idToken: number,
   admin: boolean
 ): Promise<TUserResponse> => {
-//   if (!admin && idParams !== idToken) {
-//     throw new AppError("Insufficient Permission", 403);
-//   }
-
   const newData: TUserUpdate = userUpdateSchema.parse(newUserData);
 
   const queryString: string = format(

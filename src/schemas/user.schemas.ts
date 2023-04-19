@@ -9,7 +9,6 @@ export const userSchema = z.object({
   active: z.boolean(),
 });
 
-// faltando o admin como optional
 export const userRequestSchema = userSchema.omit({ id: true, active: true });
 
 export const userResponseSchema = userSchema.omit({ password: true });

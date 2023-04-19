@@ -19,6 +19,6 @@ export type TUserResult = QueryResult<TUserResponse>;
 
 export type TUserCompleteResult = QueryResult<TUser>;
 
-export type TToken = {
+export interface IToken {
   token: string;
-};
+}

@@ -1,21 +1,18 @@
 import { QueryConfig } from "pg";
 import {
-  TToken,
+  IToken,
   TUserCompleteResult,
   TUserRequest,
-  TUserResponse,
-  TUserResult,
 } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
 import { compare } from "bcryptjs";
 import { AppError } from "../../error";
-import { TUser } from "../../__tests__/mocks/interfaces";
 import { sign } from "jsonwebtoken";
 import "dotenv/config";
 
 export const loginUserService = async (
   userData: TUserRequest
-): Promise<TToken> => {
+): Promise<IToken> => {
   const { email } = userData;
   const queryString: string = `
         SELECT 
