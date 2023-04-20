@@ -1,16 +1,9 @@
 import { QueryConfig } from "pg";
-import {
-  TUserCompleteResult,
-  TUserUpdate,
-} from "../../interfaces/users.interfaces";
 import { client } from "../../database";
-
 import { AppError } from "../../error";
-
 import "dotenv/config";
 
 export const deleteUserService = async (
-  newUserData: TUserUpdate,
   idParams: number,
   idToken: number,
   admin: boolean
@@ -20,7 +13,8 @@ export const deleteUserService = async (
   }
 
   const queryString: string = `
-      UPDATE users
+      UPDATE
+        users
       SET 
         "active" = false
       WHERE
@@ -32,5 +26,5 @@ export const deleteUserService = async (
     values: [idParams],
   };
 
-  const queryResult: TUserCompleteResult = await client.query(queryConfig);
+  await client.query(queryConfig);
 };

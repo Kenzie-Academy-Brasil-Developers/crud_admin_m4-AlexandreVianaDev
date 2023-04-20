@@ -10,7 +10,6 @@ app.use(json());
 app.use("/users", userRoutes);
 app.use("/login", loginRoute);
 
-// tem que por o .error ?
 app.use(errorHandler);
 
 export default app;

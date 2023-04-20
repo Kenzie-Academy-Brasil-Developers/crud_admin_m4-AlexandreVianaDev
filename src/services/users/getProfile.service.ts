@@ -1,8 +1,6 @@
 import { TUserResponse, TUserResult } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
-
 import { userResponseSchema } from "../../schemas/user.schemas";
-
 import { QueryConfig } from "pg";
 
 export const getProfileService = async (id: number): Promise<TUserResponse> => {
@@ -22,7 +20,6 @@ export const getProfileService = async (id: number): Promise<TUserResponse> => {
 
   const queryResult: TUserResult = await client.query(queryConfig);
 
-  console.log("USER", queryResult.rows[0]);
   const user: TUserResponse = userResponseSchema.parse(queryResult.rows[0]);
 
   return user;

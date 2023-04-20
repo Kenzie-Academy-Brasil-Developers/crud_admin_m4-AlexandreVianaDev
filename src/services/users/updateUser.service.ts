@@ -14,15 +14,14 @@ import {
 
 export const updateUserService = async (
   newUserData: TUserUpdate,
-  idParams: number,
-  idToken: number,
-  admin: boolean
+  idParams: number
 ): Promise<TUserResponse> => {
   const newData: TUserUpdate = userUpdateSchema.parse(newUserData);
 
   const queryString: string = format(
     `
-      UPDATE users
+      UPDATE
+        users
       SET 
         (%I) = ROW(%L)
       WHERE

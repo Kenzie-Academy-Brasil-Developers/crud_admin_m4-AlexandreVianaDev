@@ -13,7 +13,7 @@ import "dotenv/config";
 export const loginUserService = async (
   userData: TUserRequest
 ): Promise<IToken> => {
-  const { email } = userData;
+  const email: string = userData.email;
   const queryString: string = `
         SELECT 
             *

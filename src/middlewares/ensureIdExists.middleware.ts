@@ -9,7 +9,7 @@ export const ensureIdExists = async (
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  const { id } = req.params;
+  const id: number = parseInt(req.params.id);
 
   const queryString: string = `
     SELECT
@@ -17,7 +17,7 @@ export const ensureIdExists = async (
     FROM
       users
     WHERE
-      id = $1;
+      "id" = $1;
   `;
 
   const queryConfig: QueryConfig = {

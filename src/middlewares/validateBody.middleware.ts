@@ -3,7 +3,7 @@ import { ZodTypeAny } from "zod";
 
 export const validateBody =
   (schema: ZodTypeAny) => (req: Request, res: Response, next: NextFunction) => {
-    const validatedBody = schema.parse(req.body);
+    schema.parse(req.body);
 
     return next();
   };

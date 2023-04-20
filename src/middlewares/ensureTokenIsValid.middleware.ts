@@ -20,9 +20,9 @@ export const ensureTokenIsValid = async (
     if (error) {
       throw new AppError(error.message, 401);
     }
-    console.log("DECODED", decoded);
+
     res.locals.id = parseInt(decoded.sub);
-    res.locals.email = decoded.email;
+
     res.locals.admin = decoded.admin;
   });
 

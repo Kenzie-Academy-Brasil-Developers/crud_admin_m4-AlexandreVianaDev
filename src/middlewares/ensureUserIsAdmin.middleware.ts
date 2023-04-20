@@ -30,40 +30,43 @@ export const ensureUserIsAdmin = async (
     const user = queryResult.rows[0];
 
     res.locals.admin = user.admin;
-  } else {
-    const id: number = res.locals.id;
+  }
 
-    const queryString: string = `
-    SELECT
-        *
-    FROM
-        users
-    WHERE
-        "id" = $1;
-`;
+  const id: number = res.locals.id;
 
-    const queryConfig: QueryConfig = {
-      text: queryString,
-      values: [id],
-    };
+  const queryString: string = `
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            "id" = $1;
+    `;
 
-    const queryResult: TUserResult = await client.query(queryConfig);
+  const queryConfig: QueryConfig = {
+    text: queryString,
+    values: [id],
+  };
 
-    const user = queryResult.rows[0];
-    if (!user.admin && req.method !== "PATCH" && req.method !== "DELETE") {
+  const queryResult: TUserResult = await client.query(queryConfig);
+
+  const user = queryResult.rows[0];
+
+  res.locals.admin = user.admin;
+
+  if (!user.admin) {
+    if (req.method === "GET" || req.method === "PUT") {
       throw new AppError("Insufficient Permission", 403);
     }
 
     if (req.method === "PATCH") {
       const idParams: number = parseInt(req.params.id);
-      if (!user.admin && idParams !== id) {
+      if (idParams !== id) {
         throw new AppError("Insufficient Permission", 403);
       }
 
       return next();
     }
-
-    res.locals.admin = user.admin;
   }
 
   return next();

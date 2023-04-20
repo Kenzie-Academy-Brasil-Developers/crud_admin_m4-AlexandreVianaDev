@@ -25,6 +25,7 @@ userRoutes.post(
   ensureEmailNotExists,
   createUserController
 );
+
 userRoutes.get("", ensureTokenIsValid, ensureUserIsAdmin, getUsersController);
 userRoutes.get("/profile", ensureTokenIsValid, getProfileController);
 userRoutes.patch(
@@ -51,5 +52,3 @@ userRoutes.put(
   ensureUserIsActive,
   recoverUserController
 );
-
-// export default userRoutes;

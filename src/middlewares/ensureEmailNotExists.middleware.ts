@@ -9,7 +9,7 @@ export const ensureEmailNotExists = async (
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  const { email } = req.body;
+  const email: string = req.body.email;
 
   const queryString: string = `
     SELECT
@@ -17,7 +17,7 @@ export const ensureEmailNotExists = async (
     FROM
       users
     WHERE
-      email = $1;
+      "email" = $1;
   `;
 
   const queryConfig: QueryConfig = {

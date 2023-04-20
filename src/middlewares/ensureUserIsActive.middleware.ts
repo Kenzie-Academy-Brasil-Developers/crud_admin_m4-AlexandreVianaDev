@@ -10,15 +10,15 @@ export const ensureUserIsActive = async (
   next: NextFunction
 ): Promise<Response | void> => {
   if (req.method === "POST") {
-    const { email } = req.body;
+    const email: string = req.body.email;
     const queryString: string = `
-    SELECT
-        *
-    FROM
-        users
-    WHERE
-        "email" = $1;
-`;
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            "email" = $1;
+    `;
 
     const queryConfig: QueryConfig = {
       text: queryString,
@@ -35,15 +35,15 @@ export const ensureUserIsActive = async (
   }
 
   if (req.method === "PUT") {
-    const { id } = req.params;
+    const id: number = parseInt(req.params.id);
     const queryString: string = `
-    SELECT
-        *
-    FROM
-        users
-    WHERE
-        "id" = $1;
-`;
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            "id" = $1;
+    `;
 
     const queryConfig: QueryConfig = {
       text: queryString,

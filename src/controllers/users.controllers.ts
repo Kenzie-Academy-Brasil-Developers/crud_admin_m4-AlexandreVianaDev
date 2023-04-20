@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { TUserRequest, TUserUpdate } from "../interfaces/users.interfaces";
+import {
+  TUserRequest,
+  TUserResponse,
+  TUserUpdate,
+} from "../interfaces/users.interfaces";
 import {
   createUserService,
   loginUserService,
@@ -23,24 +27,24 @@ export const loginUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const userData: TUserRequest = req.body;
-  const user = await loginUserService(userData);
-  return res.status(200).json(user);
+  const loginData: TUserRequest = req.body;
+  const token = await loginUserService(loginData);
+  return res.status(200).json(token);
 };
 
 export const getUsersController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const user = await getUsersService();
-  return res.status(200).json(user);
+  const users: TUserResponse[] = await getUsersService();
+  return res.status(200).json(users);
 };
 
 export const getProfileController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const id = res.locals.id;
+  const id: number = res.locals.id;
   const profile = await getProfileService(id);
   return res.status(200).json(profile);
 };
@@ -49,23 +53,20 @@ export const updateUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const newUserData: TUserUpdate = req.body;
+  const newDataUser: TUserUpdate = req.body;
   const idParams: number = parseInt(req.params.id);
-  const idToken: number = parseInt(res.locals.id);
-  const admin: boolean = res.locals.admin;
-  const user = await updateUserService(newUserData, idParams, idToken, admin);
-  return res.status(200).json(user);
+  const updatedUser = await updateUserService(newDataUser, idParams);
+  return res.status(200).json(updatedUser);
 };
 
 export const deleteUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const newUserData: TUserUpdate = req.body;
   const idParams: number = parseInt(req.params.id);
-  const idToken: number = parseInt(res.locals.id);
+  const idToken: number = res.locals.id;
   const admin: boolean = res.locals.admin;
-  const user = await deleteUserService(newUserData, idParams, idToken, admin);
+  await deleteUserService(idParams, idToken, admin);
   return res.status(204).send();
 };
 
@@ -73,10 +74,7 @@ export const recoverUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const newUserData: TUserUpdate = req.body;
   const idParams: number = parseInt(req.params.id);
-  const idToken: number = parseInt(res.locals.id);
-  const admin: boolean = res.locals.admin;
-  const user = await recoverUserService(newUserData, idParams, idToken, admin);
+  const user = await recoverUserService(idParams);
   return res.status(200).json(user);
 };
