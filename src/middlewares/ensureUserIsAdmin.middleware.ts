@@ -9,52 +9,10 @@ export const ensureUserIsAdmin = async (
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  if (req.method === "POST") {
-    const email: string = res.locals.email;
-    const queryString: string = `
-        SELECT
-            *
-        FROM
-            users
-        WHERE
-            "email" = $1;
-    `;
-
-    const queryConfig: QueryConfig = {
-      text: queryString,
-      values: [email],
-    };
-
-    const queryResult: TUserResult = await client.query(queryConfig);
-
-    const user = queryResult.rows[0];
-
-    res.locals.admin = user.admin;
-  }
-
+  const admin: boolean = res.locals.admin;
   const id: number = res.locals.id;
 
-  const queryString: string = `
-        SELECT
-            *
-        FROM
-            users
-        WHERE
-            "id" = $1;
-    `;
-
-  const queryConfig: QueryConfig = {
-    text: queryString,
-    values: [id],
-  };
-
-  const queryResult: TUserResult = await client.query(queryConfig);
-
-  const user = queryResult.rows[0];
-
-  res.locals.admin = user.admin;
-
-  if (!user.admin) {
+  if (!admin) {
     if (req.method === "GET" || req.method === "PUT") {
       throw new AppError("Insufficient Permission", 403);
     }
