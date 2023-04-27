@@ -21,6 +21,8 @@ export const userDataUpdateSchema = userSchema.omit({
 
 export const userUpdateSchema = userDataUpdateSchema.partial();
 
+export const userListSchema = z.array(userResponseSchema)
+
 export const userLoginSchema = userSchema.omit({
   id: true,
   name: true,
